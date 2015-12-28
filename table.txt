@@ -1,0 +1,600 @@
+SQL> ------------------------------------------------------------------------------------------------
+SQL> ---------------------------------------Creating Table-------------------------------------------
+SQL> ------------------------------------------------------------------------------------------------
+SQL> --Drop table
+SQL> drop table waitlist;
+
+Table dropped.
+
+SQL> drop table enrollments;
+
+Table dropped.
+
+SQL> drop table schclasses;
+
+Table dropped.
+
+SQL> drop table courses;
+
+Table dropped.
+
+SQL> drop table students;
+
+Table dropped.
+
+SQL> drop table majors;
+
+Table dropped.
+
+SQL> DROP SEQUENCE waitnum;
+
+Sequence dropped.
+
+SQL> --create waitlist sequence number
+SQL> CREATE SEQUENCE waitnum
+  2    MINVALUE 0
+  3    START WITH 0
+  4    INCREMENT BY 1
+  5    NOCACHE;
+
+Sequence created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> --Create table Majors
+SQL> create table majors(
+  2  	     major varchar2(5) primary key,
+  3  	     mdesc varchar2(15));
+
+Table created.
+
+SQL> --Insert values to table majors
+SQL> insert into majors values('ACC', 'Accounting');
+
+1 row created.
+
+SQL> insert into majors values('FIN', 'Finance');
+
+1 row created.
+
+SQL> insert into majors values('IS', 'Info Sys');
+
+1 row created.
+
+SQL> insert into majors values('MKT', 'Marketing');
+
+1 row created.
+
+SQL> insert into majors values('MGT', 'Management');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> --Create table Students;
+SQL> create table STUDENTS
+  2  	     (snum varchar2(3) primary key,
+  3  	     sname varchar2(10),
+  4  	     standing number(1),
+  5  	     major varchar2(3) constraint fk_students_major references majors(major),
+  6  	     gpa number(2,1),
+  7  	     major_gpa number(2,1));
+
+Table created.
+
+SQL> --Insert values to table students
+SQL> insert into students values ('101','Andy',3,'IS',2.8,3.2);
+
+1 row created.
+
+SQL> insert into students values ('102','Betty',3,null,3.2,null);
+
+1 row created.
+
+SQL> insert into students values ('103','Cindy',3,'IS',2.5,3.5);
+
+1 row created.
+
+SQL> insert into students values ('104','David',3,'FIN',3.3,3.0);
+
+1 row created.
+
+SQL> insert into students values ('105','Ellen',3,null,2.8,null);
+
+1 row created.
+
+SQL> insert into students values ('106','Frank',3,'MKT',3.1,2.9);
+
+1 row created.
+
+SQL> insert into students values ('107','George',3,'FIN',3.7,3.5);
+
+1 row created.
+
+SQL> insert into students values ('108','Hellen',3,'ACC',3.8,3.7);
+
+1 row created.
+
+SQL> insert into students values ('109','Ivy',3,'MKT',3.3, 2.9);
+
+1 row created.
+
+SQL> insert into students values ('110','John',3,'MGT',3.0,2.9);
+
+1 row created.
+
+SQL> insert into students values ('111','Kelly',4,'FIN',3.9,3.9);
+
+1 row created.
+
+SQL> insert into students values ('112','Louis',4,'MKT',3.8,3.2);
+
+1 row created.
+
+SQL> insert into students values ('113','Minh',4,'IS', 4.0, 4.0);
+
+1 row created.
+
+SQL> insert into students values ('114','Nathan',4,'IS',3.7,3.6);
+
+1 row created.
+
+SQL> insert into students values ('115','Oscar',4,'ACC',3.5, 3.2);
+
+1 row created.
+
+SQL> insert into students values ('116','Peter',4,'MKT',3.0,3.0);
+
+1 row created.
+
+SQL> insert into students values ('117','Queenie',4,'MGT',3.5,3.0);
+
+1 row created.
+
+SQL> insert into students values ('118','Richard',4,'MKT',3.8,3.6);
+
+1 row created.
+
+SQL> insert into students values ('119','Shawn',4,'FIN',3.0,2.5);
+
+1 row created.
+
+SQL> insert into students values ('120','Tim',4,'IS',3.3, 3.1);
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> --Create table Courses;
+SQL> create table courses
+  2  	     (dept varchar2(3) constraint fk_courses_dept references majors(major),
+  3  	     cnum varchar2(3),
+  4  	     ctitle varchar2(50),
+  5  	     crhr number(3),
+  6  	     standing number(1),
+  7  	     primary key (dept,cnum));
+
+Table created.
+
+SQL> --Insert values to table courses
+SQL> insert into courses values ('IS','300','Intro to MIS',3,3);
+
+1 row created.
+
+SQL> insert into courses values ('IS','301','Business Communication',3,3);
+
+1 row created.
+
+SQL> insert into courses values ('IS','310','Business Statistics',3,3);
+
+1 row created.
+
+SQL> insert into courses values ('IS','320','Spreadsheet Modeling',3,3);
+
+1 row created.
+
+SQL> insert into courses values ('IS','340','Business Application Pro',3,3);
+
+1 row created.
+
+SQL> insert into courses values ('IS','355','Telecommunications',3,3);
+
+1 row created.
+
+SQL> insert into courses values ('IS','380','Database',3,3);
+
+1 row created.
+
+SQL> insert into courses values ('IS','385','Systems Analysis and Design',3,3);
+
+1 row created.
+
+SQL> insert into courses values ('IS','445','Internet Applications Development',3,4);
+
+1 row created.
+
+SQL> insert into courses values ('IS','456','Systems Integration and Security',3,4);
+
+1 row created.
+
+SQL> insert into courses values ('IS','457','Wireless Systems and Mobile Applications',3,4);
+
+1 row created.
+
+SQL> insert into courses values ('IS','464','Network Modeling and Simulation',3,4);
+
+1 row created.
+
+SQL> insert into courses values ('IS','470','Business Intelligence',3,4);
+
+1 row created.
+
+SQL> insert into courses values ('IS','480','Adv Database',3,4);
+
+1 row created.
+
+SQL> insert into courses values ('IS','482','Enterprise Systems',3,4);
+
+1 row created.
+
+SQL> insert into courses values ('IS','484','Electronic Commerce',3,4);
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> --Create table schclasses;
+SQL> create table SCHCLASSES (
+  2  	     callnum number(5) primary key,
+  3  	     year number(4),
+  4  	     semester varchar2(3),
+  5  	     dept varchar2(3),
+  6  	     cnum varchar2(3),
+  7  	     section number(2),
+  8  	     capacity number(3));
+
+Table created.
+
+SQL> alter table schclasses
+  2  	     add constraint fk_schclasses_dept_cnum foreign key
+  3  	     (dept, cnum) references courses (dept,cnum);
+
+Table altered.
+
+SQL> --Insert values to table schclasses
+SQL> insert into schclasses values (10110,2016,'FA','IS','300',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10115,2016,'FA','IS','300',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10120,2016,'FA','IS','301',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10125,2016,'Fa','IS','301',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10130,2016,'Fa','IS','310',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10135,2016,'Fa','IS','310',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10140,2016,'Fa','IS','320',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10145,2016,'Fa','IS','320',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10150,2016,'Fa','IS','340',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10155,2016,'Fa','IS','340',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10160,2016,'Fa','IS','355',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10165,2016,'Fa','IS','355',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10170,2016,'Fa','IS','380',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10175,2016,'Fa','IS','380',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10180,2016,'Fa','IS','385',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10185,2016,'Fa','IS','385',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10190,2016,'Fa','IS','445',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10195,2016,'Fa','IS','445',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10200,2016,'Fa','IS','456',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10205,2016,'Fa','IS','456',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10210,2016,'Fa','IS','457',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10215,2016,'Fa','IS','457',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10220,2016,'Fa','IS','464',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10225,2016,'Fa','IS','464',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10230,2016,'Fa','IS','470',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10235,2016,'Fa','IS','470',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10240,2016,'Fa','IS','480',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10245,2016,'Fa','IS','480',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10250,2016,'Fa','IS','482',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10255,2016,'Fa','IS','482',2,3);
+
+1 row created.
+
+SQL> insert into schclasses values (10260,2016,'Fa','IS','484',1,4);
+
+1 row created.
+
+SQL> insert into schclasses values (10265,2016,'Fa','IS','484',2,3);
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> --Create table enrollments
+SQL> create table ENROLLMENTS (
+  2  	     snum varchar2(3) constraint fk_enrollments_snum references students(snum),
+  3  	     callnum number(5) constraint fk_enrollments_callnum references schclasses(callnum),
+  4  	     grade varchar2(2),
+  5  	     primary key (snum, callnum));
+
+Table created.
+
+SQL> --create table waitlist
+SQL> create table waitlist(
+  2    callnum number(8),
+  3    waitlist_num number(3),
+  4    snum varchar2(3),
+  5    time date,
+  6    constraint waitlist_pk primary key(snum, callnum),
+  7    constraint waitlist_snum_fk foreign key(snum) references students(snum),
+  8    constraint waitlist_callnum_fk foreign key(callnum) references schclasses(callnum)
+  9  );
+
+Table created.
+
+SQL> --print out table structure
+SQL> describe students;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SNUM                                      NOT NULL VARCHAR2(3)
+ SNAME                                              VARCHAR2(10)
+ STANDING                                           NUMBER(1)
+ MAJOR                                              VARCHAR2(3)
+ GPA                                                NUMBER(2,1)
+ MAJOR_GPA                                          NUMBER(2,1)
+
+SQL> describe enrollments;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SNUM                                      NOT NULL VARCHAR2(3)
+ CALLNUM                                   NOT NULL NUMBER(5)
+ GRADE                                              VARCHAR2(2)
+
+SQL> describe schclasses;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CALLNUM                                   NOT NULL NUMBER(5)
+ YEAR                                               NUMBER(4)
+ SEMESTER                                           VARCHAR2(3)
+ DEPT                                               VARCHAR2(3)
+ CNUM                                               VARCHAR2(3)
+ SECTION                                            NUMBER(2)
+ CAPACITY                                           NUMBER(3)
+
+SQL> describe courses;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPT                                      NOT NULL VARCHAR2(3)
+ CNUM                                      NOT NULL VARCHAR2(3)
+ CTITLE                                             VARCHAR2(50)
+ CRHR                                               NUMBER(3)
+ STANDING                                           NUMBER(1)
+
+SQL> describe waitlist;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CALLNUM                                   NOT NULL NUMBER(8)
+ WAITLIST_NUM                                       NUMBER(3)
+ SNUM                                      NOT NULL VARCHAR2(3)
+ TIME                                               DATE
+
+SQL> describe majors;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ MAJOR                                     NOT NULL VARCHAR2(5)
+ MDESC                                              VARCHAR2(15)
+
+SQL> --print out test data
+SQL> select * from students;
+
+SNU SNAME        STANDING MAJ        GPA  MAJOR_GPA                             
+--- ---------- ---------- --- ---------- ----------                             
+101 Andy                3 IS         2.8        3.2                             
+102 Betty               3            3.2                                        
+103 Cindy               3 IS         2.5        3.5                             
+104 David               3 FIN        3.3          3                             
+105 Ellen               3            2.8                                        
+106 Frank               3 MKT        3.1        2.9                             
+107 George              3 FIN        3.7        3.5                             
+108 Hellen              3 ACC        3.8        3.7                             
+109 Ivy                 3 MKT        3.3        2.9                             
+110 John                3 MGT          3        2.9                             
+111 Kelly               4 FIN        3.9        3.9                             
+
+SNU SNAME        STANDING MAJ        GPA  MAJOR_GPA                             
+--- ---------- ---------- --- ---------- ----------                             
+112 Louis               4 MKT        3.8        3.2                             
+113 Minh                4 IS           4          4                             
+114 Nathan              4 IS         3.7        3.6                             
+115 Oscar               4 ACC        3.5        3.2                             
+116 Peter               4 MKT          3          3                             
+117 Queenie             4 MGT        3.5          3                             
+118 Richard             4 MKT        3.8        3.6                             
+119 Shawn               4 FIN          3        2.5                             
+120 Tim                 4 IS         3.3        3.1                             
+
+20 rows selected.
+
+SQL> select * from enrollments;
+
+no rows selected
+
+SQL> select * from schclasses;
+
+   CALLNUM       YEAR SEM DEP CNU    SECTION   CAPACITY                         
+---------- ---------- --- --- --- ---------- ----------                         
+     10110       2016 FA  IS  300          1          4                         
+     10115       2016 FA  IS  300          2          3                         
+     10120       2016 FA  IS  301          1          4                         
+     10125       2016 Fa  IS  301          2          3                         
+     10130       2016 Fa  IS  310          1          4                         
+     10135       2016 Fa  IS  310          2          3                         
+     10140       2016 Fa  IS  320          1          4                         
+     10145       2016 Fa  IS  320          2          3                         
+     10150       2016 Fa  IS  340          1          4                         
+     10155       2016 Fa  IS  340          2          3                         
+     10160       2016 Fa  IS  355          1          4                         
+
+   CALLNUM       YEAR SEM DEP CNU    SECTION   CAPACITY                         
+---------- ---------- --- --- --- ---------- ----------                         
+     10165       2016 Fa  IS  355          2          3                         
+     10170       2016 Fa  IS  380          1          4                         
+     10175       2016 Fa  IS  380          2          3                         
+     10180       2016 Fa  IS  385          1          4                         
+     10185       2016 Fa  IS  385          2          3                         
+     10190       2016 Fa  IS  445          1          4                         
+     10195       2016 Fa  IS  445          2          3                         
+     10200       2016 Fa  IS  456          1          4                         
+     10205       2016 Fa  IS  456          2          3                         
+     10210       2016 Fa  IS  457          1          4                         
+     10215       2016 Fa  IS  457          2          3                         
+
+   CALLNUM       YEAR SEM DEP CNU    SECTION   CAPACITY                         
+---------- ---------- --- --- --- ---------- ----------                         
+     10220       2016 Fa  IS  464          1          4                         
+     10225       2016 Fa  IS  464          2          3                         
+     10230       2016 Fa  IS  470          1          4                         
+     10235       2016 Fa  IS  470          2          3                         
+     10240       2016 Fa  IS  480          1          4                         
+     10245       2016 Fa  IS  480          2          3                         
+     10250       2016 Fa  IS  482          1          4                         
+     10255       2016 Fa  IS  482          2          3                         
+     10260       2016 Fa  IS  484          1          4                         
+     10265       2016 Fa  IS  484          2          3                         
+
+32 rows selected.
+
+SQL> select * from courses;
+
+DEP CNU CTITLE                                                   CRHR   STANDING
+--- --- -------------------------------------------------- ---------- ----------
+IS  300 Intro to MIS                                                3          3
+IS  301 Business Communication                                      3          3
+IS  310 Business Statistics                                         3          3
+IS  320 Spreadsheet Modeling                                        3          3
+IS  340 Business Application Pro                                    3          3
+IS  355 Telecommunications                                          3          3
+IS  380 Database                                                    3          3
+IS  385 Systems Analysis and Design                                 3          3
+IS  445 Internet Applications Development                           3          4
+IS  456 Systems Integration and Security                            3          4
+IS  457 Wireless Systems and Mobile Applications                    3          4
+
+DEP CNU CTITLE                                                   CRHR   STANDING
+--- --- -------------------------------------------------- ---------- ----------
+IS  464 Network Modeling and Simulation                             3          4
+IS  470 Business Intelligence                                       3          4
+IS  480 Adv Database                                                3          4
+IS  482 Enterprise Systems                                          3          4
+IS  484 Electronic Commerce                                         3          4
+
+16 rows selected.
+
+SQL> select * from waitlist;
+
+no rows selected
+
+SQL> select * from majors;
+
+MAJOR MDESC                                                                     
+----- ---------------                                                           
+ACC   Accounting                                                                
+FIN   Finance                                                                   
+IS    Info Sys                                                                  
+MKT   Marketing                                                                 
+MGT   Management                                                                
+
+SQL> 
+SQL> spool off

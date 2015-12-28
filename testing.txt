@@ -1,0 +1,230 @@
+SQL> ------------------------------------------------------------------------------------------------
+SQL> ---------------------------------------------Testing--------------------------------------------
+SQL> ------------------------------------------------------------------------------------------------
+SQL> --test if the class is full, the student will be on waitlist for that class
+SQL> declare
+  2  v_error varchar2(1000);
+  3  begin
+  4    enroll.addme(101,10110,v_error);
+  5    enroll.addme(102,10110,v_error);
+  6    enroll.addme(103,10110,v_error);
+  7    enroll.addme(104,10110,v_error);
+  8    enroll.addme(105,10110,v_error);
+  9    enroll.addme(106,10110,v_error);
+ 10    enroll.addme(107,10110,v_error);
+ 11    enroll.addme(108,10110,v_error);
+ 12    enroll.addme(109,10110,v_error);
+ 13    enroll.addme(110,10110,v_error);
+ 14    enroll.addme(111,10110,v_error);
+ 15  end;
+ 16  /
+Sorry, the student with number 101 already enrolled in class number 10110.      
+Sorry, the student with number 102 already enrolled in class number 10110.      
+Sorry, the student with number 103 already enrolled in class number 10110.      
+Sorry, the student with number 104 already enrolled in class number 10110.      
+Sorry, the student with the number 105 have reached the total limit units.      
+Sorry, the student with number 106 already enrolled in class number 10110.      
+Congratulation !!! The student number 107 has successfully enrolled in class    
+10110 which is IS 300 section 1.                                                
+Congratulation !!! The student number 108 has successfully enrolled in class    
+10110 which is IS 300 section 1.                                                
+109 is already on waitlist number #6 for class number 10110.                    
+110 is already on waitlist number #6 for class number 10110.                    
+111 is already on waitlist number #6 for class number 10110.                    
+
+PL/SQL procedure successfully completed.
+
+SQL> --test wrong student number and wrong class number
+SQL> declare
+  2  v_error varchar2(1000);
+  3  begin
+  4    --test wrong student number
+  5    enroll.addme(1,10110,v_error);
+  6    --test wrong class number
+  7    enroll.addme(102,10110,v_error);
+  8    --test both wrong
+  9    enroll.addme(11,11,v_error);
+ 10  end;
+ 11  /
+Sorry, the student with number 1 is not in our database.                        
+Sorry, the student with number 102 already enrolled in class number 10110.      
+Sorry, the student with number 11 is not in our database. Class number 11 is    
+invalid.                                                                        
+
+PL/SQL procedure successfully completed.
+
+SQL> --test student who doesn't meet the requirement which is lower class standing
+SQL> declare
+  2  v_error varchar2(1000);
+  3  begin
+  4    enroll.addme(101,10265,v_error);
+  5  end;
+  6  /
+Sorry, your standing is 3. It is lower than the standing of the class IS484     
+which has standing of 4.                                                        
+
+PL/SQL procedure successfully completed.
+
+SQL> --test student with more than 15 units
+SQL> declare
+  2  v_error varchar2(1000);
+  3  begin
+  4    enroll.addme(105,10120,v_error);
+  5    enroll.addme(105,10140,v_error);
+  6    enroll.addme(105,10150,v_error);
+  7    enroll.addme(105,10160,v_error);
+  8    enroll.addme(105,10170,v_error);
+  9    enroll.addme(105,10180,v_error);
+ 10  end;
+ 11  /
+Sorry, the student with number 105 already enrolled in class number 10120.      
+Sorry, the student with the number 105 have reached the total limit units.      
+Sorry, the student with number 105 already enrolled in class number 10140.      
+Sorry, the student with the number 105 have reached the total limit units.      
+Sorry, the student with number 105 already enrolled in class number 10150.      
+Sorry, the student with the number 105 have reached the total limit units.      
+Sorry, the student with number 105 already enrolled in class number 10160.      
+Sorry, the student with the number 105 have reached the total limit units.      
+Sorry, the student with number 105 already enrolled in class number 10170.      
+Sorry, the student with the number 105 have reached the total limit units.      
+Sorry, the student with the number 105 have reached the total limit units.      
+
+PL/SQL procedure successfully completed.
+
+SQL> --test student with class that he has already taken / also the class that he has already taken in another section
+SQL> declare
+  2  v_error varchar2(1000);
+  3  begin
+  4    enroll.addme(104,10110,v_error);
+  5    enroll.addme(104,10115,v_error);
+  6  end;
+  7  /
+Sorry, the student with number 104 already enrolled in class number 10110.      
+You are already enrolled in this class IS300 in section 1.                      
+
+PL/SQL procedure successfully completed.
+
+SQL> --test if student is already on waitlist
+SQL> declare
+  2  v_error varchar2(1000);
+  3  begin
+  4    enroll.addme(111,10110,v_error);
+  5  end;
+  6  /
+111 is already on waitlist number #6 for class number 10110.                    
+
+PL/SQL procedure successfully completed.
+
+SQL> --Enrollments table and waitlist table after running addme program
+SQL> select * from enrollments;
+
+SNU    CALLNUM GR                                                               
+--- ---------- --                                                               
+101      10110 W                                                                
+102      10110                                                                  
+103      10110 A                                                                
+104      10110                                                                  
+105      10120                                                                  
+105      10140                                                                  
+105      10150                                                                  
+105      10160                                                                  
+105      10170                                                                  
+106      10110 D                                                                
+107      10110                                                                  
+
+SNU    CALLNUM GR                                                               
+--- ---------- --                                                               
+108      10110                                                                  
+
+12 rows selected.
+
+SQL> select * from waitlist;
+
+   CALLNUM WAITLIST_NUM SNU TIME                                                
+---------- ------------ --- ---------                                           
+     10110            1 105 27-DEC-15                                           
+     10110            3 107 27-DEC-15                                           
+     10110            4 108 27-DEC-15                                           
+     10110            5 109 27-DEC-15                                           
+     10110            6 110 27-DEC-15                                           
+     10110            7 111 27-DEC-15                                           
+
+6 rows selected.
+
+SQL> --test drop me unsuccesfully because the student is not enrolled in the class
+SQL> execute enroll.dropme(112,10120);
+Sorry, the student with the number 112 is not enrolled in 10120. Please do it   
+again.                                                                          
+
+PL/SQL procedure successfully completed.
+
+SQL> --test drop me unsuccesfully because the student is not in database
+SQL> execute enroll.dropme(1,10120);
+Sorry, the student with number 1 is not in our database.                        
+
+PL/SQL procedure successfully completed.
+
+SQL> --test drop me unsuccesfully because the class is not in database
+SQL> execute enroll.dropme(112,1);
+Class number 1 is invalid.                                                      
+
+PL/SQL procedure successfully completed.
+
+SQL> --test drop me unsuccesfully because the student and the class are not in database
+SQL> execute enroll.dropme(1,1);
+Sorry, the student with number 1 is not in our database. Class number 1 is      
+invalid.                                                                        
+
+PL/SQL procedure successfully completed.
+
+SQL> --test a successful drop me
+SQL> execute enroll.dropme(101,10110);
+Student with number 101 has received W for class 10110 which is IS 300 section  
+1. Cannot drop!!!                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> --test a not successful drop me because of already being graded
+SQL> update enrollments set grade = 'A' where snum = 103;
+
+1 row updated.
+
+SQL> update enrollments set grade = 'D' where snum = 106;
+
+1 row updated.
+
+SQL> select * from enrollments;
+
+SNU    CALLNUM GR                                                               
+--- ---------- --                                                               
+101      10110 W                                                                
+102      10110                                                                  
+103      10110 A                                                                
+104      10110                                                                  
+105      10120                                                                  
+105      10140                                                                  
+105      10150                                                                  
+105      10160                                                                  
+105      10170                                                                  
+106      10110 D                                                                
+107      10110                                                                  
+
+SNU    CALLNUM GR                                                               
+--- ---------- --                                                               
+108      10110                                                                  
+
+12 rows selected.
+
+SQL> execute enroll.dropme(103,10110);
+Student with number 103 has received A for class 10110 which is IS 300 section  
+1. Cannot drop!!!                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> execute enroll.dropme(106,10110);
+Student with number 106 has received D for class 10110 which is IS 300 section  
+1. Cannot drop!!!                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> spool off
